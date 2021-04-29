@@ -88,7 +88,7 @@ async function insertTask(task) {
         let connect = await connectDB();
         if (!connect) throw new Error ('open DB Failed');
         let promise = new Promise((resolve, reject) => {
-            db.run(`INSERT INTO tasks(description) VALUES ('${task}')`, (err) => {
+            db.run(`INSERT INTO tasks(description) VALUES (?)`, [task],  (err) => {
                 if (err) {
                     console.log(err);
                     reject(err);
@@ -111,7 +111,7 @@ async function getTask(id) {
     try {
         let connect = await connectDB();
         if (!connect) throw new Error ('open DB Failed');
-        let data = await getOne(1);
+        let data = await getOne(id);
         if (!data) throw new Error ('Get Tasks Failed');
         let resp = await close();
         if (!resp) throw new Error ('close DB Failed');
